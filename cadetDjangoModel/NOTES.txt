@@ -1,0 +1,17 @@
+Sempre que eu precisar rodar algum comando para manipular o DJANGO,
+preciso colocar poetry run antes. Pois, todas as dependencias
+estão rodando no poetry.
+    RUN:
+        poetry run ...
+        poetry run code . -> vai fazer com que o VScode 
+            consiga rodar dentro do poetry.
+
+NOTES FOR MY DJANGO MODEL WITH ENDPOINT.
+    -> Vou estar usando o REST framework para fazer os endpoints da API.
+
+    -> Para esses endpoints, vou usar a APIView. É possível fazer com ViewSets
+    ou GenericViews tbm. Vou implementar depois todos os 3 endpoints para fins
+    de estudo. Mas acredito que para o projeto em si, usaremos a APIView.
+
+    -> A APIView não possui validação própria do método POST. Já os GenericViews
+    as ViewSets, possuem essa validaçaõ como builtin.
