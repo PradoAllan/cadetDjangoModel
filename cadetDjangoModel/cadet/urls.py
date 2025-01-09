@@ -5,9 +5,9 @@ from .views import CadetListCreateAPIView, CadetRetrieveUpdateDeleteAPIView, Rol
 
 urlpatterns = [
     path('cadets/', CadetListCreateAPIView.as_view(), name='cadet-list'),
-    path('cadets/<pk>/', CadetRetrieveUpdateDeleteAPIView.as_view(), name='cadet'),
+    path('cadets/<pk>/', CadetRetrieveUpdateDeleteAPIView.as_view(), name='cadet-retrieve'),
     path('roles/', RolesListCreateAPIView.as_view(), name='roles-list'),
-    path('roles/<pk>/', RolesRetrieveUpdateDeleteAPIView.as_view(), name='roles')
+    path('roles/<pk>/', RolesRetrieveUpdateDeleteAPIView.as_view(), name='roles-retrieve')
 ]
 
 # Com esse código, foi usado uma funcção api_view. Funciona bem, mas geralmente, queremos criar uma classe APIView 

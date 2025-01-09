@@ -13,14 +13,23 @@ from .serializers import CadetSerializer, RolesSerializer
 
 class   CadetListCreateAPIView(APIView):
     def get(self, request):
-        pass
+        cadets = Cadet.objects.all()
+        serialized = CadetSerializer(cadets, many=True)
+        return Response(serialized.data, status=status.HTTP_200_OK)
 
     def post(self, request):
-        pass
+        serialized = CadetSerializer(data=request.data)
+        if not serialized.is_valid():
+            return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
+        valid_data = serialized.validated_data
+        serialized.create(valid_data)
+        return Response(serialized.data, status=status.HTTP_201_CREATED)
 
 class   CadetRetrieveUpdateDeleteAPIView(APIView):
     def get(self, request, pk):
-        pass
+        cadet = Cadet.objects.get(id=pk)
+        serialized = CadetSerializer(cadet)
+        return Response(serialized.data, status=status.HTTP_200_OK)
 
     def put(self, request, pk):
         pass
@@ -33,14 +42,23 @@ class   CadetRetrieveUpdateDeleteAPIView(APIView):
 
 class   RolesListCreateAPIView(APIView):
     def get(self, request):
-        pass
+        roles = Roles.objects.all()
+        serialized = RolesSerializer(roles, many=True)
+        return Response(serialized.data, status=status.HTTP_200_OK)
 
     def post(self, request):
-        pass
+        serialized = RolesSerializer(data=request.data)
+        if not serialized.is_valid():
+            return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
+        valid_data = serialized.validated_data
+        serialized.create(valid_data)
+        return Response(serialized.data, status=status.HTTP_201_CREATED)
 
 class   RolesRetrieveUpdateDeleteAPIView(APIView):
     def get(self, request, pk):
-        pass
+        role = Roles.objects.get(id=pk)
+        serialized = RolesSerializer(role)
+        return Response(serialized.data, status=status.HTTP_200_OK)
 
     def put(self, request, pk):
         pass

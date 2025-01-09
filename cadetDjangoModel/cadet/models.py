@@ -15,6 +15,6 @@ class   Cadet(models.Model):
     presentation_video = models.URLField()
     #Urlflield tem como max_lenght default = 200
     #presentation_video = models.TextField() # nao tem um limite, parece
-    created_at = models.DateTimeField()
-    updated_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
