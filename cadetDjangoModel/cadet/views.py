@@ -19,10 +19,12 @@ def cadetView(request):
         return Response(serializer.data, status=status.HTTP_200_OK)
         #return HttpResponse(serializer.data)
     elif request.method == 'POST':
-        pass
-        # serializer = CadetSerializer(request.data)
-        # if serializer.is_valid():
-        #     cadet = Cadet()
+        serializer = CadetSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        validated_data = serializer.validated_data
+        serializer.create(validated_data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
     elif request.method == 'PUT':
         pass
     elif request.method == 'PATCH':
@@ -39,7 +41,12 @@ def RolesView(request):
 
         return Response(serializer.data, status=status.HTTP_200_OK)
     elif request.method == 'POST':
-        pass
+        serializer = RolesSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        validated_data = serializer.validated_data
+        serializer.create(validated_data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
     elif request.method == 'PUT':
         pass
     elif request.method == 'PATCH':
