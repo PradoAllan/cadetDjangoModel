@@ -33,12 +33,13 @@ class   CadetRetrieveUpdateDeleteAPIView(APIView):
 
     def put(self, request, pk):
         cadet = Cadet.objects.get(id=pk)
-        serialized = CadetSerializer(data=request.data)
-        if not serialized.is_valid():
-            return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
-        valid_data = serialized.validated_data
-        serialized.update(cadet, valid_data)
-        return Response(serialized.data, status=status.HTTP_200_OK)
+        serializer = CadetSerializer(data=request.data)
+
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        validated_data = serializer.validated_data
+        serializer.update(cadet, validated_data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def patch(self, request, pk):
         pass
@@ -67,13 +68,13 @@ class   RolesRetrieveUpdateDeleteAPIView(APIView):
         return Response(serialized.data, status=status.HTTP_200_OK)
 
     def put(self, request, pk):
-        serialized = RolesSerializer(data=request.data)
-        if not serialized.is_valid():
-            return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
         role = Roles.objects.get(id=pk)
-        valid_data = serialized.validated_data
-        serialized.update(role, valid_data)
-        return Response(serialized.data, status=status.HTTP_200_OK)
+        serializer = RolesSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        valid_data = serializer.validated_data
+        serializer.update(role, valid_data)
+        return Response(serializer.data, role)
 
     def patch(self, request, pk):
         pass
