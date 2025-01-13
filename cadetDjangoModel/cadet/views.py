@@ -42,7 +42,16 @@ class   CadetRetrieveUpdateDeleteAPIView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def patch(self, request, pk):
-        pass
+        try:
+            cadet = Cadet.objects.get(id=pk)
+        except:
+            return Response({"error": "Cadet not found."}, status=status.HTTP_404_NOT_FOUND)
+        serializer = CadetSerializer(cadet, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
         Cadet.objects.filter(id=pk).delete()
@@ -78,13 +87,38 @@ class   RolesRetrieveUpdateDeleteAPIView(APIView):
         return Response(serializer.data, role)
 
     def patch(self, request, pk):
-        pass
+        try:
+            role = Roles.objects.get(id=pk)
+        except Roles.DoesNotExist:
+            return Response({"error": "Role not found."}, status=status.HTTP_404_NOT_FOUND)
+        serializer = RolesSerializer(role, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
         Roles.objects.filter(id=pk).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+#EXEMPLE PATH METHOD:
+#  def patch(self, request, item_id): 
+#      try:
+#         #Retrieve the item by Id 
+#         item = Item.objects.get(id=item_id) 
+#      except Item.DoesNotExist:
+#             return Response({"error": "Item not found"}, status=status.HTTP_404_NOT_FOUND)
+#      #Partially update with incoming data serializer Itemserializer(item, data-request.data, partial-True)
+#       if serializer.is_valid():
+
+#         #Save only the fields provided 
+#         serializer.save()
+#         return Response(serializer.data, status=status.HTTP_280_OK)
+
+#      else:
+#         return Response(sertalizer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 # @api_view(['GET', 'POST'])
 # def cadetView(request):
