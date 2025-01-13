@@ -45,7 +45,8 @@ class   CadetRetrieveUpdateDeleteAPIView(APIView):
         pass
 
     def delete(self, request, pk):
-        pass
+        Cadet.objects.filter(id=pk).delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 class   RolesListCreateAPIView(APIView):
     def get(self, request):
@@ -80,7 +81,8 @@ class   RolesRetrieveUpdateDeleteAPIView(APIView):
         pass
 
     def delete(self, request, pk):
-        pass
+        Roles.objects.filter(id=pk).delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 
