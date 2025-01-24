@@ -12,7 +12,7 @@
 #         fields = '__all__'
 
 
-from .models import User, Role
+from .models import User, Role, UserIntra
 from rest_framework import serializers
 
 class   UserSerializer(serializers.ModelSerializer):
@@ -25,10 +25,10 @@ class   RoleSerializer(serializers.ModelSerializer):
         model = Role
         fields = '__all__'
 
-# class   UserIntraSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = UserIntra
-#         fields = '__all__'
+class   UserIntraSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserIntra
+        fields = '__all__'
 
 # class   UserPersonalProjectSerializer(serializers.ModelSerializer):
 #     class Meta:
