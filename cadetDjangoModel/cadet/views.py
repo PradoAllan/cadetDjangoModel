@@ -7,8 +7,8 @@ from django.http import HttpResponse
 
 from rest_framework import status
 
-from .models import User, Role
-from .serializers import UserSerializer, RoleSerializer
+from .models import User, Role, WorkTitle, WorkExperience
+from .serializers import UserSerializer, RoleSerializer, WorkExperienceSerilizer, WorkTitleSerializer
 
 # from .models import User, Role, UserPersonalProject, UserPraticalProject, AdditionalProject, LanguageLevel, Skill, UserSkill, WorkTitle, WorkExperience
 # from .serializers import UserSerializer, RoleSerializer, UserPersonalProjectSerializer, UserPraticalProjectSerializer, AdditionalProjectSerializer, LanguageLevelSerializer, SkillSerializer, UserSkillSerializer, WorkTitleSerializer, WorkExperienceSerilizer
@@ -111,91 +111,95 @@ class   RoleIdAPIView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
     
     
-# # ------------------ WORKEXPERIENCE'S ROUTE ------------------
-# # WorkExperienceSerilizer  Get/Post/Put/Patch/Delete
-# class   WorkExperienceAPIView(APIView):
-#     def get(self, request):
-#         workExperience = WorkExperience.objects.all()
-#         serialized = WorkExperienceSerilizer(workExperience, many=True)
-#         return (Response(serialized.data, status=status.HTTP_200_OK))
+# ------------------ WORKEXPERIENCE'S ROUTE ------------------
+# WorkExperienceSerilizer  Get/Post/Put/Patch/Delete
+class   WorkExperienceAPIView(APIView):
+    def get(self, request):
+        workExperience = WorkExperience.objects.all()
+        serialized = WorkExperienceSerilizer(workExperience, many=True)
+        return (Response(serialized.data, status=status.HTTP_200_OK))
     
-#     def post(self, request):
-#         serialized = WorkExperienceSerilizer(request.data)
-#         if not serialized.is_valid():
-#             return (Response(serialized.erros, status=status.HTTP_400_BAD_REQUEST))
-#         valid = serialized.validated_data
-#         serialized.create(valid)
-#         return (Response(serialized.data, status=status.HTTP_201_CREATED))
+    def post(self, request):
+        serializer = WorkExperienceSerilizer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        valid_data = serializer.validated_data
+        serializer.create(valid_data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-# class   WorkExperienceIdAPIView(APIView):
-#     def get(self, request, pk):
-#         workExperience = WorkExperience.objects.get(id=pk)
-#         serialized = WorkExperienceSerilizer(workExperience)
-#         return (Response(serialized.data, status=status.HTTP_200_OK))
+class   WorkExperienceIdAPIView(APIView):
+    # def get(self, request, pk):
+    #     role = Role.objects.get(id=pk)
+    #     serializer = RoleSerializer(role)
+    #     return Response(serializer.data, status=status.HTTP_200_OK)
+    def get(self, request, pk):
+        workExperience = WorkExperience.objects.get(id=pk)
+        serialized = WorkExperienceSerilizer(workExperience)
+        return (Response(serialized.data, status=status.HTTP_200_OK))
     
-#     def patch(self, request, pk):
-#         try:
-#             workExperience = WorkExperience.objects.get(id=pk)
-#         except:
-#             return Response({"Error": "Work experience not found."}, status=status.HTTP_400_BAD_REQUEST)
-#         serialized = WorkExperienceSerilizer(workExperience, data=request.data, partial=True)
-#         if serialized.is_valid():
-#             serialized.save()
-#             return Response(serialized.data, status=status.HTTP_200_OK)
-#         else:
-#             return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
+    def patch(self, request, pk):
+        try:
+            workExperience = WorkExperience.objects.get(id=pk)
+        except:
+            return Response({"Error": "Work experience not found."}, status=status.HTTP_400_BAD_REQUEST)
+        serialized = WorkExperienceSerilizer(workExperience, data=request.data, partial=True)
+        if serialized.is_valid():
+            serialized.save()
+            return Response(serialized.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
         
-#     def delete(self, request, pk):
-#         WorkExperience.objects.filter(id=pk).delete()
-#         return Response(status=status.HTTP_204_NO_CONTENT)
+    def delete(self, request, pk):
+        WorkExperience.objects.filter(id=pk).delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-# # ------------------ WORKTITLE'S ROUTE ------------------
-# # WorkTitleSerializer, Get/Post/Put/Patch/Delete
-# class   WorkTitleAPIView(APIView):
-#     def get(self, request):
-#         workTitle = WorkTitle.objects.all()
-#         serialized = WorkTitleSerializer(workTitle, many=True)
-#         return (Response(serialized.data, status=status.HTTP_200_OK))
+# ------------------ WORKTITLE'S ROUTE ------------------
+# WorkTitleSerializer, Get/Post/Put/Patch/Delete
+class   WorkTitleAPIView(APIView):
+    def get(self, request):
+        workTitle = WorkTitle.objects.all()
+        serialized = WorkTitleSerializer(workTitle, many=True)
+        return (Response(serialized.data, status=status.HTTP_200_OK))
     
-#     def post(self, request):
-#         serialized = WorkTitleSerializer(request.data)
-#         if not serialized.is_valid():
-#             return (Response(serialized.erros, status=status.HTTP_400_BAD_REQUEST))
-#         valid = serialized.validated_data
-#         serialized.create(valid)
-#         return (Response(serialized.data, status=status.HTTP_201_CREATED))
+    def post(self, request):
+        serialized = WorkTitleSerializer(data=request.data)
+        if not serialized.is_valid():
+            return (Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST))
+        valid = serialized.validated_data
+        serialized.create(valid)
+        return (Response(serialized.data, status=status.HTTP_201_CREATED))
 
-# class   WorkTitleIdAPIView(APIView):
-#     def get(self, request, pk):
-#         workTitle = WorkTitle.objects.get(id=pk)
-#         serialized = WorkTitleSerializer(workTitle)
-#         return (Response(serialized.data, status=status.HTTP_200_OK))
+class   WorkTitleIdAPIView(APIView):
+    def get(self, request, pk):
+        workTitle = WorkTitle.objects.get(id=pk)
+        serialized = WorkTitleSerializer(workTitle)
+        return (Response(serialized.data, status=status.HTTP_200_OK))
     
-#     def patch(self, request, pk):
-#         try:
-#             workTitle = WorkTitle.objects.get(id=pk)
-#         except:
-#             return Response({"Error": "Work title not found."}, status=status.HTTP_400_BAD_REQUEST)
-#         serialized = WorkTitleSerializer(workTitle, data=request.data, partial=True)
-#         if serialized.is_valid():
-#             serialized.save()
-#             return Response(serialized.data, status=status.HTTP_200_OK)
-#         else:
-#             return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
+    def patch(self, request, pk):
+        try:
+            workTitle = WorkTitle.objects.get(id=pk)
+        except:
+            return Response({"Error": "Work title not found."}, status=status.HTTP_400_BAD_REQUEST)
+        serialized = WorkTitleSerializer(workTitle, data=request.data, partial=True)
+        if serialized.is_valid():
+            serialized.save()
+            return Response(serialized.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
         
-#     def delete(self, request, pk):
-#         WorkTitle.objects.filter(id=pk).delete()
-#         return Response(status=status.HTTP_204_NO_CONTENT)
+    def delete(self, request, pk):
+        WorkTitle.objects.filter(id=pk).delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 # # ------------------ USERPERSONALPROJECT'S ROUTE ------------------
 # # UserPersonalProjectSerializer,  Post/Put/Patch/Delete
 # class   UserPersonalProjectAPIView(APIView):
 #     def post(self, request):
-#         serialized = UserPersonalProjectSerializer(request.data)
+#         serialized = UserPersonalProjectSerializer(data=request.data)
 #         if not serialized.is_valid():
-#             return (Response(serialized.erros, status=status.HTTP_400_BAD_REQUEST))
+#             return (Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST))
 #         valid = serialized.validated_data
 #         serialized.create(valid)
 #         return (Response(serialized.data, status=status.HTTP_201_CREATED))
@@ -232,9 +236,9 @@ class   RoleIdAPIView(APIView):
 #         return (Response(serialized.data, status=status.HTTP_200_OK))
     
 #     def post(self, request):
-#         serialized = UserPraticalProjectSerializer(request.data)
+#         serialized = UserPraticalProjectSerializer(data=request.data)
 #         if not serialized.is_valid():
-#             return (Response(serialized.erros, status=status.HTTP_400_BAD_REQUEST))
+#             return (Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST))
 #         valid = serialized.validated_data
 #         serialized.create(valid)
 #         return (Response(serialized.data, status=status.HTTP_201_CREATED))
@@ -271,9 +275,9 @@ class   RoleIdAPIView(APIView):
 #         return (Response(serialized.data, status=status.HTTP_200_OK))
     
 #     def post(self, request):
-#         serialized = AdditionalProjectSerializer(request.data)
+#         serialized = AdditionalProjectSerializer(data=request.data)
 #         if not serialized.is_valid():
-#             return (Response(serialized.erros, status=status.HTTP_400_BAD_REQUEST))
+#             return (Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST))
 #         valid = serialized.validated_data
 #         serialized.create(valid)
 #         return (Response(serialized.data, status=status.HTTP_201_CREATED))
@@ -310,9 +314,9 @@ class   RoleIdAPIView(APIView):
 #         return (Response(serialized.data, status=status.HTTP_200_OK))
     
 #     def post(self, request):
-#         serialized = LanguageLevelSerializer(request.data)
+#         serialized = LanguageLevelSerializer(data=request.data)
 #         if not serialized.is_valid():
-#             return (Response(serialized.erros, status=status.HTTP_400_BAD_REQUEST))
+#             return (Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST))
 #         valid = serialized.validated_data
 #         serialized.create(valid)
 #         return (Response(serialized.data, status=status.HTTP_201_CREATED))
@@ -349,9 +353,9 @@ class   RoleIdAPIView(APIView):
 #         return (Response(serialized.data, status=status.HTTP_200_OK))
     
 #     def post(self, request):
-#         serialized = SkillSerializer(request.data)
+#         serialized = SkillSerializer(data=request.data)
 #         if not serialized.is_valid():
-#             return (Response(serialized.erros, status=status.HTTP_400_BAD_REQUEST))
+#             return (Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST))
 #         valid = serialized.validated_data
 #         serialized.create(valid)
 #         return (Response(serialized.data, status=status.HTTP_201_CREATED))
@@ -388,9 +392,9 @@ class   RoleIdAPIView(APIView):
 #         return (Response(serialized.data, status=status.HTTP_200_OK))
     
 #     def post(self, request):
-#         serialized = UserSkillSerializer(request.data)
+#         serialized = UserSkillSerializer(data=request.data)
 #         if not serialized.is_valid():
-#             return (Response(serialized.erros, status=status.HTTP_400_BAD_REQUEST))
+#             return (Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST))
 #         valid = serialized.validated_data
 #         serialized.create(valid)
 #         return (Response(serialized.data, status=status.HTTP_201_CREATED))
@@ -416,7 +420,7 @@ class   RoleIdAPIView(APIView):
 #     def delete(self, request, pk):
 #         UserSkill.objects.filter(id=pk).delete()
 #         return Response(status=status.HTTP_204_NO_CONTENT)
-
+# ----------------------------------------------------------------------------------------------------------------------
 # class   CadetListCreateAPIView(APIView):
 #     def get(self, request):
 #         cadets = Cadet.objects.all()

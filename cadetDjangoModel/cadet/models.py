@@ -9,23 +9,23 @@ class   UserIntra(models.Model):
     # alumini = models.BooleanField(default=False)
     # aluminized_at = models.DateTimeField(blank=True, null=True)
 
-# class   WorkTitle(models.Model):
-#     id = models.AutoField(primary_key=True)
-#     title = models.CharField(max_length=120)
+class   WorkTitle(models.Model):
+    id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=120)
 
-# class   WorkExperience(models.Model):
-#     id = models.AutoField(primary_key=True)
-#     # company_id = models.ForeignKey(blank=False, on_delete=models.CASCADE, related_name="user")
-#     company_id = models.IntegerField(blank=True) # need relate this field to the company model
-#     title_id = models.ForeignKey(WorkTitle, blank=True, null=True, on_delete=models.SET_NULL, related_name="work_experience")
-#     title = models.CharField(max_length=60)
-#     # OneToOneRel(WorkTitle, blank=False, on_delete=models.SET_NULL) 
-#     started_at = models.DateTimeField(blank=False, editable=True) # need to check how this is done
-#     ended_at = models.DateTimeField(blank=False, editable=True)
-#     work_type = models.CharField(max_length=60) #enum
-#     location = models.CharField(max_length=60)
-#     location_type = models.CharField(max_length=60) #enum
-#     description = models.TextField(blank=True)
+class   WorkExperience(models.Model):
+    id = models.AutoField(primary_key=True)
+    # company_id = models.ForeignKey(blank=False, on_delete=models.CASCADE, related_name="user")
+    company_id = models.IntegerField(blank=True) # need relate this field to the company model
+    title_id = models.ForeignKey(WorkTitle, blank=True, null=True, on_delete=models.SET_NULL, related_name="work_experience")
+    title = models.CharField(max_length=60)
+    # OneToOneRel(WorkTitle, blank=False, on_delete=models.SET_NULL) 
+    started_at = models.DateTimeField(blank=False, editable=True) # need to check how this is done
+    ended_at = models.DateTimeField(blank=False, editable=True)
+    work_type = models.CharField(max_length=60) #enum
+    location = models.CharField(max_length=60)
+    location_type = models.CharField(max_length=60) #enum
+    description = models.TextField(blank=True)
 
 # class   LanguageLevel(models.Model):
 #     id = models.AutoField(primary_key=True)
@@ -83,7 +83,7 @@ class   User(models.Model):
     presentation_video = models.URLField(max_length=254)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    # work_experience = models.ForeignKey(WorkExperience, blank=True, on_delete=models.CASCADE, related_name="user_work_experience")
+    work_experience = models.ForeignKey(WorkExperience, blank=True, null=True, on_delete=models.CASCADE, related_name="user_work_experience")
     # user_skill = models.ForeignKey(UserSkill, blank=True, on_delete=models.CASCADE, related_name="user_skill")
     # personal_project = models.ForeignKey(UserPersonalProject, blank=True, on_delete=models.CASCADE, related_name="user_personal_project")
     # additional_project = models.ForeignKey(UserPraticalProject, blank=True, on_delete=models.CASCADE, related_name="user_additional_project")
