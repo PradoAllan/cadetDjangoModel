@@ -1,13 +1,13 @@
 from django.urls import path
 
 # Class APIView para melhor personalização:
-from .views import CadetListCreateAPIView, CadetRetrieveUpdateDeleteAPIView, RolesListCreateAPIView, RolesRetrieveUpdateDeleteAPIView
+from . import views
 
 urlpatterns = [
-    path('cadets/', CadetListCreateAPIView.as_view(), name='cadet-list'),
-    path('cadets/<pk>/', CadetRetrieveUpdateDeleteAPIView.as_view(), name='cadet-retrieve'),
-    path('roles/', RolesListCreateAPIView.as_view(), name='roles-list'),
-    path('roles/<pk>/', RolesRetrieveUpdateDeleteAPIView.as_view(), name='roles-retrieve')
+    path('', views.UserAPIView.as_view(), name='cadet-list'),
+    path('<int:pk>/', views.UserIdAPIView.as_view(), name='cadet-retrieve'),
+    path('roles/', views.RoleAPIView.as_view(), name='roles-list'),
+    path('roles/<int:pk>/', views.RoleIdAPIView.as_view(), name='roles-retrieve')
 ]
 
 # Com esse código, foi usado uma funcção api_view. Funciona bem, mas geralmente, queremos criar uma classe APIView 
